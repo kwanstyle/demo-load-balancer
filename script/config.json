@@ -1,0 +1,12 @@
+{
+    "strategies": [
+        "round-robin",
+        "weighted-round-robin",
+        "smooth-weighted-round-robin",
+        "random",
+        "weighted-random",
+        "ip-hashing",
+        "least-connection",
+        "weighted-least-connection"
+    ]
+}
