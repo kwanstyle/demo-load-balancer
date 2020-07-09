@@ -1,0 +1,42 @@
+{
+    "strategies": [
+        "round-robin",
+        "weighted-round-robin",
+        "smooth-weighted-round-robin",
+        "random",
+        "weighted-random",
+        "ip-hashing",
+        "least-connection",
+        "weighted-least-connection"
+    ],
+    "balancer": {
+        "port": 8080
+    },
+    "server": [
+        {
+            "id": "server1",
+            "url": "http://localhost",
+            "port": 8081
+        },
+        {
+            "id": "server2",
+            "url": "http://localhost",
+            "port": 8082
+        },
+        {
+            "id": "server3",
+            "url": "http://localhost",
+            "port": 8083
+        },
+        {
+            "id": "server4",
+            "url": "http://localhost",
+            "port": 8084
+        },
+        {
+            "id": "server5",
+            "url": "http://localhost",
+            "port": 8085
+        }
+    ]
+}
