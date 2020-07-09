@@ -3,6 +3,7 @@ import body from 'body-parser';
 import request from 'request';
 import config from './manifest.json';
 import RoundRobin from './controller/round-robin';
+import Random from './controller/random';
 import ServerType from './serverType';
 
 class Balancer {
@@ -10,7 +11,7 @@ class Balancer {
 
     private port: number;
 
-    private distributor: any;
+    private distributor: RoundRobin | Random;
 
     private servers: Array<ServerType>;
 
@@ -44,11 +45,14 @@ class Balancer {
         return args[0];
     }
 
-    private initDistributor(strategies: string): Record<string, any> {
-        let distributor: Record<string, any>;
+    private initDistributor(strategies: string): RoundRobin | Random {
+        let distributor: RoundRobin | Random;
         switch (strategies) {
             case 'round-robin':
                 distributor = new RoundRobin(this.servers);
+                break;
+            case 'random':
+                distributor = new Random(this.servers);
                 break;
             default:
                 distributor = new RoundRobin(this.servers);

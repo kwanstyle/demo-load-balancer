@@ -8,7 +8,7 @@ const args = process.argv.slice(2);
 if (args.length !== 2) {
     console.error('Error: Invalid parameters');
     process.exit();
-} else if (isNaN(args[1] as any)) {
+} else if (Number.isNaN(Number(args[1]))) {
     console.error('Error: Invalid port number');
     process.exit();
 }
