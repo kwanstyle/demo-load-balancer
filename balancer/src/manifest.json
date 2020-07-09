@@ -16,27 +16,32 @@
         {
             "id": "server1",
             "url": "http://localhost",
-            "port": 8081
+            "port": 8081,
+            "weight": 1
         },
         {
             "id": "server2",
             "url": "http://localhost",
-            "port": 8082
+            "port": 8082,
+            "weight": 2
         },
         {
             "id": "server3",
             "url": "http://localhost",
-            "port": 8083
+            "port": 8083,
+            "weight": 3
         },
         {
             "id": "server4",
             "url": "http://localhost",
-            "port": 8084
+            "port": 8084,
+            "weight": 4
         },
         {
             "id": "server5",
             "url": "http://localhost",
-            "port": 8085
+            "port": 8085,
+            "weight": 5
         }
     ]
 }
