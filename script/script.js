@@ -1,30 +1,26 @@
-const { execSync } = require("child_process");
+const { execSync, spawn } = require("child_process");
 const path = require("path");
 
-// https://kemptechnologies.com/load-balancer/load-balancing-algorithms-techniques/
-const config = require("./config.json");
+const config = require("../balancer/src/manifest.json");
 
 class Startup {
     constructor(args, dir) {
         if (!this.parser(args)) {
             process.exit();
         }
-        this.amount = args[0];
-        this.strategy = args[1];
+        this.strategy = args[0];
         this.serverDir = dir + "/server";
         this.balancerDir = dir + "/balancer";
+        this.servers = config.servers;
     }
 
     parser(args) {
-        if (args.length != 2) {
+        if (args.length != 1) {
             console.error("Error: Invalid parameters");
             return false;
-        } else if (isNaN(args[0])) {
-            console.error("Error: Illegal number of server instances");
-            return false;
-        } else if (!config.strategies.includes(args[1])) {
+        } else if (!config.strategies.includes(args[0])) {
             console.log(config.strategies);
-            console.error("Error: Illegal strategies of balancing");
+            console.error("Error: Invalid strategies of balancing");
             return false;
         }
 
@@ -33,7 +29,7 @@ class Startup {
 
     installDependencies() {
         const cmd = "npm install";
-        const result = execSync(cmd, {
+        let result = execSync(cmd, {
             cwd: this.serverDir,
         });
         console.log(result.toString());
@@ -43,9 +39,47 @@ class Startup {
         console.log(result.toString());
     }
 
-    startServer() {}
+    startServer() {
+        this.servers.forEach((server) => {
+            const process = spawn(
+                "npm",
+                ["start", "--", server.id, server.port],
+                {
+                    cwd: this.serverDir,
+                }
+            );
 
-    startLoadBalancer() {}
+            process.stdout.on("data", (data) => {
+                console.log(`${server.id}: ${data}`);
+            });
+
+            process.stderr.on("data", (data) => {
+                console.log(`${server.id} - Error: ${data}`);
+            });
+
+            process.on("close", (code) => {
+                console.log(`${server.id}: Shutting down`);
+            });
+        });
+    }
+
+    startLoadBalancer() {
+        const process = spawn("npm", ["start", "--", this.strategy], {
+            cwd: this.balancerDir,
+        });
+
+        process.stdout.on("data", (data) => {
+            console.log(`Balancer: ${data}`);
+        });
+
+        process.stderr.on("data", (data) => {
+            console.log(`Balancer - Error: ${data}`);
+        });
+
+        process.on("close", (code) => {
+            console.log(`Balancer: Shutting down`);
+        });
+    }
 }
 
 const demo = new Startup(process.argv.slice(2), process.env.INIT_CWD);

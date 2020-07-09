@@ -20,15 +20,15 @@ let count = 0;
 app.get('/favicon.ico', (req, res) => res.status(204));
 
 app.get('*', (req: express.Request, res: express.Response): void => {
-    const url = `${config.server[count].url}:${config.server[count].port}`;
-    console.log(`Request redirected to ${config.server[count].id} - ${url}`);
+    const url = `${config.servers[count].url}:${config.servers[count].port}`;
+    console.log(`Request redirected to ${config.servers[count].id} - ${url}`);
     req.pipe(
         request({ url: url }).on('error', (error) => {
             console.log(`Error: Failed to redirect the request`);
             res.status(500).send(error.message);
         }),
     ).pipe(res);
-    count = (count + 1) % config.server.length;
+    count = (count + 1) % config.servers.length;
 });
 
 app.listen(port, () => console.log(`Load balancer is listening at localhost:${port}`));

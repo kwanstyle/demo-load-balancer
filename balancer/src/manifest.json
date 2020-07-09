@@ -12,7 +12,7 @@
     "balancer": {
         "port": 8080
     },
-    "server": [
+    "servers": [
         {
             "id": "server1",
             "url": "http://localhost",
