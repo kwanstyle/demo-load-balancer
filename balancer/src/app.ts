@@ -2,10 +2,10 @@ import express from 'express';
 import body from 'body-parser';
 import request from 'request';
 import config from './manifest.json';
-import RoundRobin from './controller/round-robin';
-import Random from './controller/random';
-import WeightedRoundRobin from './controller/weighted-round-robin';
-import WeightedRandom from './controller/weighted-random';
+import RoundRobin from './controller/RoundRobin';
+import Random from './controller/Random';
+import WeightedRoundRobin from './controller/WeightedRoundRobin';
+import WeightedRandom from './controller/WeightedRandom';
 import ServerType from './serverType';
 
 class Balancer {
