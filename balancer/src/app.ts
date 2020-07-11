@@ -2,11 +2,14 @@ import express from 'express';
 import body from 'body-parser';
 import request from 'request';
 import config from './manifest.json';
-import RoundRobin from './controller/RoundRobin';
-import Random from './controller/Random';
-import WeightedRoundRobin from './controller/WeightedRoundRobin';
-import WeightedRandom from './controller/WeightedRandom';
-import SmoothWeightedRoundRobin from './controller/SmoothWeightedRoundRobin';
+import {
+    DistributorType,
+    RoundRobin,
+    Random,
+    WeightedRoundRobin,
+    WeightedRandom,
+    SmoothWeightedRoundRobin,
+} from './controller/all';
 import ServerType from './serverType';
 
 class Balancer {
@@ -14,7 +17,7 @@ class Balancer {
 
     private port: number;
 
-    private distributor: RoundRobin | Random | WeightedRoundRobin | WeightedRandom | SmoothWeightedRoundRobin;
+    private distributor: DistributorType;
 
     private servers: Array<ServerType>;
 
@@ -48,10 +51,8 @@ class Balancer {
         return args[0];
     }
 
-    private initDistributor(
-        strategies: string,
-    ): RoundRobin | Random | WeightedRoundRobin | WeightedRandom | SmoothWeightedRoundRobin {
-        let distributor: RoundRobin | Random | WeightedRoundRobin | WeightedRandom | SmoothWeightedRoundRobin;
+    private initDistributor(strategies: string): DistributorType {
+        let distributor: DistributorType;
         switch (strategies) {
             case 'round-robin':
                 distributor = new RoundRobin(this.servers);
