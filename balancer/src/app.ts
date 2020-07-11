@@ -6,6 +6,7 @@ import RoundRobin from './controller/RoundRobin';
 import Random from './controller/Random';
 import WeightedRoundRobin from './controller/WeightedRoundRobin';
 import WeightedRandom from './controller/WeightedRandom';
+import SmoothWeightedRoundRobin from './controller/SmoothWeightedRoundRobin';
 import ServerType from './serverType';
 
 class Balancer {
@@ -13,7 +14,7 @@ class Balancer {
 
     private port: number;
 
-    private distributor: RoundRobin | Random | WeightedRoundRobin | WeightedRandom;
+    private distributor: RoundRobin | Random | WeightedRoundRobin | WeightedRandom | SmoothWeightedRoundRobin;
 
     private servers: Array<ServerType>;
 
@@ -47,8 +48,10 @@ class Balancer {
         return args[0];
     }
 
-    private initDistributor(strategies: string): RoundRobin | Random | WeightedRoundRobin | WeightedRandom {
-        let distributor: RoundRobin | Random | WeightedRoundRobin | WeightedRandom;
+    private initDistributor(
+        strategies: string,
+    ): RoundRobin | Random | WeightedRoundRobin | WeightedRandom | SmoothWeightedRoundRobin {
+        let distributor: RoundRobin | Random | WeightedRoundRobin | WeightedRandom | SmoothWeightedRoundRobin;
         switch (strategies) {
             case 'round-robin':
                 distributor = new RoundRobin(this.servers);
@@ -61,6 +64,9 @@ class Balancer {
                 break;
             case 'weighted-random':
                 distributor = new WeightedRandom(this.servers);
+                break;
+            case 'smooth-weighted-round-robin':
+                distributor = new SmoothWeightedRoundRobin(this.servers);
                 break;
             default:
                 distributor = new RoundRobin(this.servers);
