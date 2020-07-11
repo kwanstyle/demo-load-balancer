@@ -10,6 +10,14 @@ export default class WeightedRoundRobin {
         this.counter = 0;
     }
 
+    public get nextServer(): string {
+        const url = `${this.servers[this.counter].url}:${this.servers[this.counter].port}`;
+        console.log(`Request redirected to ${this.servers[this.counter].id} - ${url}`);
+
+        this.counter = (this.counter + 1) % this.servers.length;
+        return url;
+    }
+
     private generateList(servers: Array<ServerType>): Array<ServerType> {
         const list: Array<ServerType> = [];
         servers.forEach((server) => {
@@ -18,13 +26,5 @@ export default class WeightedRoundRobin {
             }
         });
         return list;
-    }
-
-    public get nextServer(): string {
-        const url = `${this.servers[this.counter].url}:${this.servers[this.counter].port}`;
-        console.log(`Request redirected to ${this.servers[this.counter].id} - ${url}`);
-
-        this.counter = (this.counter + 1) % this.servers.length;
-        return url;
     }
 }
