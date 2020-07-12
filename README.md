@@ -1,8 +1,11 @@
 # load-balancer-demo
 
-This repository contains a PoC(Proof of Concept) project regarding the load balancer.
+This repository contains a PoC(Proof of Concept) project of self-implemented load balancer. It is consisted of two parts: 1 load-balancer server (port 8080) and 5 application servers (port 8081-8085). 
 
-## Design
+The project is built based on NodeJS (Express + Typescript), with different strategies implemented. Execute the following command with the argument corresponding to the specific stragety to start servers:
+<pre><code>
+npm start -- &lt;strategy&gt;
+</code></pre>
 
 ## Strategies
 
