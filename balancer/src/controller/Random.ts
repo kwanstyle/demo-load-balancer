@@ -7,7 +7,7 @@ export default class Random {
         this.servers = servers;
     }
 
-    public get nextServer(): string {
+    public nextServer(): string {
         const index = this.getRandom(0, this.servers.length - 1);
         const url = `${this.servers[index].url}:${this.servers[index].port}`;
         console.log(`Request redirected to ${this.servers[index].id} - ${url}`);

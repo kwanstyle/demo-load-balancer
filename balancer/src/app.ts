@@ -9,6 +9,7 @@ import {
     WeightedRoundRobin,
     WeightedRandom,
     SmoothWeightedRoundRobin,
+    IPHashing,
 } from './controller/all';
 import ServerType from './serverType';
 
@@ -69,6 +70,9 @@ class Balancer {
             case 'smooth-weighted-round-robin':
                 distributor = new SmoothWeightedRoundRobin(this.servers);
                 break;
+            case 'ip-hashing':
+                distributor = new IPHashing(this.servers);
+                break;
             default:
                 distributor = new RoundRobin(this.servers);
                 break;
@@ -82,8 +86,9 @@ class Balancer {
         this.app.get('/favicon.ico', (req: express.Request, res: express.Response) => res.status(204));
 
         this.app.get('*', (req: express.Request, res: express.Response): void => {
+            const srcIP: string = req.connection.remoteAddress || '';
             req.pipe(
-                request({ url: this.distributor.nextServer }).on('error', (error) => {
+                request({ url: this.distributor.nextServer(srcIP) }).on('error', (error) => {
                     console.log(`Error: Failed to redirect the request`);
                     res.status(500).send(error.message);
                 }),
@@ -92,7 +97,9 @@ class Balancer {
     }
 
     public start(): void {
-        this.app.listen(this.port, () => console.log(`Load balancer is listening at localhost:${this.port}`));
+        this.app.listen(this.port, '0.0.0.0', () =>
+            console.log(`Load balancer is listening at localhost:${this.port}`),
+        );
     }
 }
 

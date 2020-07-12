@@ -10,7 +10,7 @@ export default class SmoothWeightedRoundRobin {
         this.initialWeights = servers.map((server: ServerType) => server.weight);
     }
 
-    public get nextServer(): string {
+    public nextServer(): string {
         const serverIndex = this.getIndex();
         const url = `${this.servers[serverIndex].url}:${this.servers[serverIndex].port}`;
         console.log(`Request redirected to ${this.servers[serverIndex].id} - ${url}`);

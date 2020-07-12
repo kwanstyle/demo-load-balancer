@@ -10,7 +10,7 @@ export default class WeightedRoundRobin {
         this.counter = 0;
     }
 
-    public get nextServer(): string {
+    public nextServer(): string {
         const url = `${this.servers[this.counter].url}:${this.servers[this.counter].port}`;
         console.log(`Request redirected to ${this.servers[this.counter].id} - ${url}`);
 
