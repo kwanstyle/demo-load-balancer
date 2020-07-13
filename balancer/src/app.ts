@@ -4,12 +4,14 @@ import request from 'request';
 import config from './manifest.json';
 import {
     DistributorType,
+    OptionType,
     RoundRobin,
     Random,
     WeightedRoundRobin,
     WeightedRandom,
     SmoothWeightedRoundRobin,
     IPHashing,
+    URLHashing,
 } from './controller/all';
 import ServerType from './serverType';
 
@@ -73,6 +75,9 @@ class Balancer {
             case 'ip-hashing':
                 distributor = new IPHashing(this.servers);
                 break;
+            case 'url-hashing':
+                distributor = new URLHashing(this.servers);
+                break;
             default:
                 distributor = new RoundRobin(this.servers);
                 break;
@@ -87,8 +92,11 @@ class Balancer {
 
         this.app.get('*', (req: express.Request, res: express.Response): void => {
             const srcIP: string = req.connection.remoteAddress || '';
+            const destURL: string = req.protocol + '://' + req.get('host') + req.originalUrl;
+
+            const options: OptionType = { srcIP, destURL };
             req.pipe(
-                request({ url: this.distributor.nextServer(srcIP) }).on('error', (error) => {
+                request({ url: this.distributor.nextServer(options) }).on('error', (error) => {
                     console.log(`Error: Failed to redirect the request`);
                     res.status(500).send(error.message);
                 }),

@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import ServerType from '../serverType';
 import { OptionType } from './all';
 
-export default class IPHashing {
+export default class URLHashing {
     private servers: Array<ServerType>;
 
     private map: Map<string, ServerType>;
@@ -18,8 +18,8 @@ export default class IPHashing {
     }
 
     public nextServer(options: OptionType): string {
-        const srcIP = options.srcIP;
-        const server = this.findServer(srcIP) || this.servers[0];
+        const destURL = options.destURL;
+        const server = this.findServer(destURL) || this.servers[0];
         const url = `${server.url}:${server.port}`;
         console.log(`Request redirected to ${server.id} - ${url}`);
 
