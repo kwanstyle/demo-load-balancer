@@ -46,7 +46,9 @@ In Progress 尚未完成
 In Progress 尚未完成
 
 #### URL Hashing URL哈希
-In Progress 尚未完成
+**Argument**: url-hashing
+</br>
+**Code File**: ./balancer/src/controller/URLHashing.ts
 
 #### Fair 响应性能
 In Progress 尚未完成
