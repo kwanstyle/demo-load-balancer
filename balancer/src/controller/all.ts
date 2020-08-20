@@ -5,6 +5,7 @@ import WeightedRandom from './WeightedRandom';
 import WeightedRoundRobin from './WeightedRoundRobin';
 import IPHashing from './IPHashing';
 import URLHashing from './URLHashing';
+import None from './None';
 
 export type DistributorType =
     | Random
@@ -13,8 +14,18 @@ export type DistributorType =
     | WeightedRandom
     | WeightedRoundRobin
     | IPHashing
-    | URLHashing;
-export { Random, RoundRobin, SmoothWeightedRoundRobin, WeightedRandom, WeightedRoundRobin, IPHashing, URLHashing };
+    | URLHashing
+    | None;
+export {
+    Random,
+    RoundRobin,
+    SmoothWeightedRoundRobin,
+    WeightedRandom,
+    WeightedRoundRobin,
+    IPHashing,
+    URLHashing,
+    None,
+};
 
 export interface OptionType {
     srcIP: string;

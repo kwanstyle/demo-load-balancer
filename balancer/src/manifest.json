@@ -1,5 +1,6 @@
 {
     "strategies": [
+        "none",
         "round-robin",
         "weighted-round-robin",
         "smooth-weighted-round-robin",

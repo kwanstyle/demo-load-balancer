@@ -12,6 +12,7 @@ import {
     SmoothWeightedRoundRobin,
     IPHashing,
     URLHashing,
+    None,
 } from './controller/all';
 import ServerType from './serverType';
 
@@ -57,6 +58,9 @@ class Balancer {
     private initDistributor(strategies: string): DistributorType {
         let distributor: DistributorType;
         switch (strategies) {
+            case 'none':
+                distributor = new None(this.servers);
+                break;
             case 'round-robin':
                 distributor = new RoundRobin(this.servers);
                 break;
@@ -79,7 +83,7 @@ class Balancer {
                 distributor = new URLHashing(this.servers);
                 break;
             default:
-                distributor = new RoundRobin(this.servers);
+                distributor = new None(this.servers);
                 break;
         }
 
