@@ -9,6 +9,11 @@ npm start -- &lt;strategy&gt;
 
 ## Strategies
 
+#### None 无负载均衡
+**Argument**: none
+</br>
+**Code File**: ./balancer/src/controller/None.ts
+
 #### Round Robin 轮询
 **Argument**: round-robin
 </br>
