@@ -1,4 +1,4 @@
-import ServerType from '../serverType';
+import ServerType from '../util/serverType';
 
 export default class RoundRobin {
     private servers: Array<ServerType>;

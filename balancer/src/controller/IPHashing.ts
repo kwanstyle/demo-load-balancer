@@ -1,6 +1,6 @@
 import crypto from 'crypto';
-import ServerType from '../serverType';
-import { OptionType } from './all';
+import ServerType from '../util/serverType';
+import OptionType from '../util/optionType';
 
 export default class IPHashing {
     private servers: Array<ServerType>;

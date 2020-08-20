@@ -4,7 +4,6 @@ import request from 'request';
 import config from './manifest.json';
 import {
     DistributorType,
-    OptionType,
     RoundRobin,
     Random,
     WeightedRoundRobin,
@@ -14,7 +13,8 @@ import {
     URLHashing,
     None,
 } from './controller/all';
-import ServerType from './serverType';
+import ServerType from './util/serverType';
+import OptionType from './util/optionType';
 
 class Balancer {
     private app: express.Application;

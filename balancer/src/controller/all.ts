@@ -26,8 +26,3 @@ export {
     URLHashing,
     None,
 };
-
-export interface OptionType {
-    srcIP: string;
-    destURL: string;
-}
