@@ -22,7 +22,9 @@ app.get('*', (req: express.Request, res: express.Response): void => {
     conn++;
     res.set('conn-count', conn.toString());
     res.send(`Request received at server: ${id}`);
-    conn--;
+    setTimeout(() => {
+        conn--;
+    }, getRandom(0, 10) * 1000);
 });
 
 app.listen(port, () => console.log(`Test server is listening at localhost:${port}`));
