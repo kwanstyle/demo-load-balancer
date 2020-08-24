@@ -1,11 +1,9 @@
-import serverType from './serverType';
-
-class Node {
-    public server: serverType;
+export class Node {
+    public serverIndex: number;
     public conn: number;
 
-    constructor(server, conn) {
-        this.server = server;
+    constructor(serverIndex: number, conn: number) {
+        this.serverIndex = serverIndex;
         this.conn = conn;
     }
 }
@@ -87,7 +85,7 @@ export default class MinHeap {
         }
     }
 
-    public peek(): Node {
+    public peek(): Node | null {
         if (this.size === 0) {
             return null;
         }
@@ -95,7 +93,7 @@ export default class MinHeap {
         return this.items[0];
     }
 
-    public poll(): Node {
+    public poll(): Node | null {
         if (this.size === 0) {
             return null;
         }

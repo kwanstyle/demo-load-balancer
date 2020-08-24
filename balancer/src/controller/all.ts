@@ -6,6 +6,8 @@ import WeightedRoundRobin from './WeightedRoundRobin';
 import IPHashing from './IPHashing';
 import URLHashing from './URLHashing';
 import None from './None';
+import LeastConnection from './LeastConnection';
+import WeightedLeastConnection from './WeightedLeastConnection';
 
 export type DistributorType =
     | Random
@@ -15,7 +17,9 @@ export type DistributorType =
     | WeightedRoundRobin
     | IPHashing
     | URLHashing
-    | None;
+    | None
+    | LeastConnection
+    | WeightedLeastConnection;
 export {
     Random,
     RoundRobin,
@@ -25,4 +29,6 @@ export {
     IPHashing,
     URLHashing,
     None,
+    LeastConnection,
+    WeightedLeastConnection,
 };

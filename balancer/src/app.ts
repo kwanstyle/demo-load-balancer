@@ -12,6 +12,8 @@ import {
     IPHashing,
     URLHashing,
     None,
+    LeastConnection,
+    WeightedLeastConnection,
 } from './controller/all';
 import ServerType from './util/serverType';
 import OptionType from './util/optionType';
@@ -82,6 +84,12 @@ class Balancer {
             case 'url-hashing':
                 distributor = new URLHashing(this.servers);
                 break;
+            case 'least-connection':
+                distributor = new LeastConnection(this.servers);
+                break;
+            case 'weighted-least-connection':
+                distributor = new WeightedLeastConnection(this.servers);
+                break;
             default:
                 distributor = new None(this.servers);
                 break;
@@ -91,7 +99,7 @@ class Balancer {
     }
 
     private routing(): void {
-        //Avoid browser sending an extra request
+        // Avoid browser sending an extra request
         this.app.get('/favicon.ico', (req: express.Request, res: express.Response) => res.status(204));
 
         this.app.get('*', (req: express.Request, res: express.Response): void => {
@@ -99,10 +107,21 @@ class Balancer {
             const destURL: string = req.protocol + '://' + req.get('host') + req.originalUrl;
 
             const options: OptionType = { srcIP, destURL };
+            const server: string = this.distributor.nextServer(options);
             req.pipe(
-                request({ url: this.distributor.nextServer(options) }).on('error', (error) => {
-                    console.log(`Error: Failed to redirect the request`);
-                    res.status(500).send(error.message);
+                request({ url: server }, (error, response) => {
+                    if (error) {
+                        console.error(`Error: Failed to redirect the request`);
+                        res.status(500).send(error.message);
+                    }
+
+                    if (
+                        response &&
+                        (this.distributor instanceof LeastConnection ||
+                            this.distributor instanceof WeightedLeastConnection)
+                    ) {
+                        this.distributor.update(server, parseInt(response.headers['conn-count'] as string));
+                    }
                 }),
             ).pipe(res);
         });
