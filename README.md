@@ -45,17 +45,18 @@ npm start -- &lt;strategy&gt;
 **Code File**: ./balancer/src/controller/IPHashing.ts
 
 #### Least Connection 最小连接数
-In Progress 尚未完成
+**Argument**: least-connection
+</br>
+**Code File**: ./balancer/src/controller/LeastConnection.ts
 
 #### Weighted Least Connection 加权最小连接数
-In Progress 尚未完成
+**Argument**: weighted-least-connection
+</br>
+**Code File**: ./balancer/src/controller/WeightedLeastConnection.ts
 
 #### URL Hashing URL哈希
 **Argument**: url-hashing
 </br>
 **Code File**: ./balancer/src/controller/URLHashing.ts
-
-#### Fair 响应性能
-In Progress 尚未完成
 
 ## References
