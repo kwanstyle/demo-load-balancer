@@ -60,3 +60,8 @@ npm start -- &lt;strategy&gt;
 **Code File**: ./balancer/src/controller/URLHashing.ts
 
 ## References
+"负载均衡算法 — 平滑加权轮询" by 樊浩柏科学院 </br>
+https://www.fanhaobai.com/2018/12/load-balance-smooth-weighted-round-robin.html
+
+"Building Your Own Load Balancer with ExpressJS" by Valeri Karpov </br>
+https://thecodebarbarian.com/building-your-own-load-balancer-with-express-js
